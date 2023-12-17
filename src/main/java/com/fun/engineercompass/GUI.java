@@ -15,16 +15,15 @@ import javax.swing.SwingUtilities;
 
 public class GUI extends JFrame {
 
-    private int tileSize = 250;
-    private int imageSize = (int) (tileSize * 0.85);
-    private int middlePoint = tileSize / 2;
+    private int tileSize = 300;
+    private int imageSize = (int) (tileSize * 0.90);
 
     private JLabel backgroundLabel;
     private ImageIcon compassIcon;
 
     private int lastX, lastY;
     private double rotationAngle = 0;
-    private double sensitivity = 0.02; // Érzékenységi tényező
+    private double sensitivity = 0.02; 
 
     public GUI() {
         super("Engineer Compass");
@@ -34,8 +33,9 @@ public class GUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(true);
         setAlwaysOnTop(true);
+        setResizable(false);
 
-        compassIcon = new ImageIcon(GUI.class.getResource("/testCompass.png"));
+        compassIcon = new ImageIcon(GUI.class.getResource("compass.png"));
 
         Image scaledImage = compassIcon.getImage().getScaledInstance(imageSize, imageSize, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
@@ -82,6 +82,7 @@ public class GUI extends JFrame {
         Graphics2D g = bufferedImage.createGraphics();
         g.rotate(angle, image.getWidth(null) / 2, image.getHeight(null) / 2);
         g.drawImage(image, 0, 0, null);
+                
         g.dispose();
         return new ImageIcon(bufferedImage);
     }

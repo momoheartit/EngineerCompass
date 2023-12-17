@@ -3,12 +3,32 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.fun</groupId>
     <artifactId>EngineerCompass</artifactId>
-    <version>2023.1</version>
+    <version>2023.12</version>
     <packaging>jar</packaging>
+    <dependencies>
+
+    </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <exec.mainClass>com.fun.engineercompass.EngineerCompass</exec.mainClass>
     </properties>
+    <build>  
+	<plugins>  
+		<plugin>  
+			<!-- Build an executable JAR -->  
+			<groupId>org.apache.maven.plugins</groupId>  
+			<artifactId>maven-jar-plugin</artifactId>  
+			<version>3.1.0</version>  
+			<configuration>  
+				<archive>  
+					<manifest>  
+						<mainClass>com.fun.engineercompass.EngineerCompass</mainClass>  
+					</manifest>  
+				</archive>  
+			</configuration>  
+		</plugin>  
+	</plugins>  
+</build> 
 </project>
