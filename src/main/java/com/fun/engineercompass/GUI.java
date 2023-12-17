@@ -11,10 +11,11 @@ import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
 
 public class GUI extends JFrame {
 
-     private int tileSize = 250;
+    private int tileSize = 250;
     private int imageSize = (int) (tileSize * 0.85);
     private int middlePoint = tileSize / 2;
 
@@ -23,7 +24,7 @@ public class GUI extends JFrame {
 
     private int lastX, lastY;
     private double rotationAngle = 0;
-    private double sensitivity = 0.01; // Érzékenységi tényező
+    private double sensitivity = 0.02; // Érzékenységi tényező
 
     public GUI() {
         super("Engineer Compass");
@@ -62,10 +63,10 @@ public class GUI extends JFrame {
                 double deltaY = currentY - lastY;
                 rotationAngle += sensitivity * Math.atan2(deltaY, deltaX);
 
-                // Forgasd el a képet
-                rotateImage(rotationAngle);
+                ImageIcon rotatedIcon = rotateIcon(compassIcon, rotationAngle);
+                Image scaledRotatedImage = rotatedIcon.getImage().getScaledInstance(imageSize, imageSize, Image.SCALE_SMOOTH);
+                backgroundLabel.setIcon(new ImageIcon(scaledRotatedImage));
 
-                // Frissítsd az utolsó pozíciót
                 lastX = currentX;
                 lastY = currentY;
             }
@@ -74,26 +75,20 @@ public class GUI extends JFrame {
         setContentPane(backgroundLabel);
     }
 
-    private void rotateImage(double angle) {
-        // Számítsd ki az új forgatott képet és állítsd be a JLabel-t
-        ImageIcon rotatedIcon = rotateIcon(compassIcon, angle);
-        backgroundLabel.setIcon(rotatedIcon);
-    }
-
     private ImageIcon rotateIcon(ImageIcon icon, double angle) {
         // Számítsd ki az új forgatott ikont
         Image image = icon.getImage();
-        Image rotatedImage = rotateImage(image, angle);
-        return new ImageIcon(rotatedImage);
-    }
-
-    private Image rotateImage(Image image, double angle) {
-        // Számítsd ki az új forgatott képet
         BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = bufferedImage.createGraphics();
         g.rotate(angle, image.getWidth(null) / 2, image.getHeight(null) / 2);
         g.drawImage(image, 0, 0, null);
         g.dispose();
-        return bufferedImage;
+        return new ImageIcon(bufferedImage);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            new GUI().setVisible(true);
+        });
     }
 }
